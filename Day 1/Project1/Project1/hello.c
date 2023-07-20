@@ -1,5 +1,9 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <string.h>
+
+int GetSum(int a, int b);
+int GetFactorial(int num);
 
 int main(void) {
 	/*
@@ -101,29 +105,68 @@ int main(void) {
 		}
 		printf("\n");
 	}
-	*/
+
 	int n;
 	scanf("%d", &n);
 
-	for (int i = 1; i <= n; i++) {
-		for (int k = n-i; k>=1; k--) {
-			printf(" ");
+	while (1) {
+		for (int i = 1; i <= n; i++) {
+			for (int k = n - i; k >= 1; k--) {
+				printf(" ");
+			}
+			for (int j = 1; j <= (i * 2) - 1; j++) {
+				printf("*");
+			}
+			printf("\n");
 		}
-		for (int j = 1; j <= (i*2)-1; j++) {
-			printf("*");
+		for (int i = 1; i <= n - 1; i++) {
+			for (int k = n - i; k <= n - 1; k++) {
+				printf(" ");
+			}
+			for (int j = 1; j <= (2 * n - 1) - (2 * i); j++) {
+				printf("*");
+			}
+			printf("\n");
 		}
-		printf("\n");
+		scanf("%d", &n);
+		if(n == 0) {
+			break;
+		}
 	}
-	for (int i = 1; i <= n-1; i++) {
-		for (int k = n-i; k <= n-1; k++) {
-			printf(" ");
-		}
-		for (int j = 1; j <= (2 * n - 1) - (2 * i); j++) {
-			printf("*");
-		}
-		printf("\n");
+	
+	int a, b, sum;
+	scanf("%d %d", &a, &b);
+	sum = GetSum(a,b);
+	printf("%d", sum);
+	
+	int num;
+	scanf("%d", &num);
+	printf("%d", GetFactorial(num));
+	
+	int num[5];
+	int sum = 0;
+	for (int i = 0; i < sizeof(num)/sizeof(num[i]); i++) {
+		scanf("%d", &num[i]);
+		sum += num[i];
 	}
-
-
+	printf("%d", sum);
+	*/
+	char str[10] = "Hello";
+	printf("%d\n", sizeof(str));
+	printf("%d", strlen(str));
 	return 0;
+}
+
+int GetSum(int a, int b) {
+	return a + b;
+}
+
+int GetFactorial(int num) {
+	int factorial = 1;
+	int count = num;
+	for (int i = 1; i <= count; i++) {
+		factorial *= num;
+		num -= 1;
+	}
+	return factorial;
 }
