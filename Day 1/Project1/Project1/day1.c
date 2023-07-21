@@ -1,4 +1,5 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿/*
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
 
@@ -6,7 +7,6 @@ int GetSum(int a, int b);
 int GetFactorial(int num);
 
 int main(void) {
-	/*
 	int num;
 	scanf("%d", &num); // Input num
 	printf("%d", num); // %d : 정수형 입력
@@ -150,7 +150,6 @@ int main(void) {
 		sum += num[i];
 	}
 	printf("%d", sum);
-	*/
 	char str[10] = "Hello";
 	printf("%d\n", sizeof(str));
 	printf("%d", strlen(str));
@@ -170,3 +169,4 @@ int GetFactorial(int num) {
 	}
 	return factorial;
 }
+*/

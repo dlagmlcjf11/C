@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hello.c">
+    <ClCompile Include="day1.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="day2.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
