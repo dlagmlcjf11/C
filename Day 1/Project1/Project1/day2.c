@@ -1,4 +1,5 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿/*
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -133,7 +134,6 @@ int main(void) {
 		printf("화요일");
 		break;
 	}
-	*/
 	/*
 	//홀수합 짝수합
 	int num;
@@ -150,7 +150,6 @@ int main(void) {
 	}
 	printf("홀수의 합 : %d", singleNum);
 	printf("짝수의 합 : %d", doubleNum);
-	*/
 	/*
 	//문자 입력	
 	char ch;
@@ -168,14 +167,12 @@ int main(void) {
 	else {
 		printf("특수문자");
 	}
-	*/
-	
-	//중복 문자 체크	
+	/*
+	//중복 문자 체크
 	char str[10];
 	char str1[128];
 	int cnt = 0;
 	gets(str);
-	
 	/*
 	//변수 값 바꾸기
 	
@@ -185,7 +182,6 @@ int main(void) {
 	ch = x;
 	x = y;
 	ch = y;
-	*/
 	return 0;
 }
 
@@ -211,3 +207,4 @@ int GetFactorial(int num) {
 	}
 	return factorial;
 }
+*/
