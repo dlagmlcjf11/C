@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <malloc.h>
 
+/*
 #define MAX_STUDENT 5
-
 typedef struct student {
 	char name[20];
 	int korean, english, math;
@@ -16,18 +16,26 @@ typedef struct student {
 typedef struct point {
 	int x, y;
 } POINT;
-
+*/
 typedef struct listNode {
+	char subject[20];
 	int score;
 	struct listNode* next;
 } LIST;
 
+/*
 void Power(int num);
 void GetNum(int a, int b, int* gob, int* power);
 void Swap(POINT* p);
+*/
 LIST* MakeLinkedList();
-void AddRear(LIST* linkedList, int new_num);
+void AddRear(LIST* linkedList, char* new_subject, int new_num);
+void NAddRear(LIST* linkedList, char* new_subject, int new_num, int n);
+void Search(LIST* linkedList, char* content);
 void PrintAll(LIST* linkedList);
+int Over(LIST* linkedList, char* subject);
+void DelRear(LIST* linkedList);
+void NDelRear(LIST* linkedList, int n);
 
 int main(void) {
 	/*
@@ -89,20 +97,59 @@ int main(void) {
 	fclose(fp);
 	*/
 	int choose = 1;
+	char subject[20];
+	char searchContent[10];
 	int score;
+	int n;
 	LIST* newList = MakeLinkedList();
 	while (choose != 0) {
-		printf("기능 선택 -> 0번 = 종료, 1번 = 추가, 2번 = 출력 : ");
+		printf("기능 선택 -> 0번 = 종료, 1번 = 추가, 2번 = 출력 , 3번 = 삭제 , 4번 = 검색, 5번 = N번째 추가, 6번 N번째 삭제 : ");
 		scanf("%d", &choose);
+		getchar();
 		switch (choose)
 		{
-		case 1:
+		case 1://추가
+			printf("과목 : ");
+			gets(subject);
 			printf("점수 : ");
 			scanf("%d",&score);
-			AddRear(newList, score);
+			if (Over(newList, subject) == 0) {
+				AddRear(newList, subject, score);
+			}
+			else {
+				break;
+			}
 			break;
-		case 2:
+		case 2://출력
 			PrintAll(newList);
+			break;
+		case 3://제거
+			DelRear(newList);
+			break;
+		case 4: //검색
+			printf("검색어 : ");
+			gets(searchContent);
+			Search(newList, searchContent);
+			break;
+		case 5: //N번째 추가
+			printf("N번 : ");
+			scanf("%d", &n);
+			getchar();
+			printf("%d번째 과목 : ", n);
+			gets(subject);
+			printf("%d번째 점수 : ", n);
+			scanf("%d", &score);
+			if (Over(newList, subject) == 0) {
+				NAddRear(newList, subject, score, n);
+			}
+			else {
+				break;
+			}
+			break;
+		case 6: //N번째 삭제
+			printf("N번 : ");
+			scanf("%d", &n);
+			NDelRear(newList, n);
 			break;
 		}
 	}
@@ -111,15 +158,16 @@ int main(void) {
 
 LIST* MakeLinkedList() {
 	LIST* node = (LIST*)malloc(sizeof(LIST));
+	strcpy(node->subject, "");
 	node->score = NULL;
 	node->next = NULL;
 	return node;
 }
 
-void AddRear(LIST *linkedList, int new_num) {
+void AddRear(LIST *linkedList, char* new_subject , int new_num) {
 	LIST* temp = linkedList;
 	if (temp->score == 0) {
-		
+		strcpy(temp->subject, new_subject);
 		temp->score = new_num;
 	}
 	else {
@@ -129,6 +177,30 @@ void AddRear(LIST *linkedList, int new_num) {
 		}
 		temp->next = newNode;
 		newNode->next = NULL;
+		strcpy(newNode->subject, new_subject);
+		newNode->score = new_num;
+	}
+}
+
+void NAddRear(LIST* linkedList, char* new_subject, int new_num, int n) {
+	LIST* temp = linkedList;
+	LIST* temp1 = linkedList->next;
+	for (int i = 0; i < n; i++) {
+		temp = temp->next;
+		temp1 = temp1->next;
+	}
+	if (temp->score == 0) {
+		strcpy(temp->subject, new_subject);
+		temp->score = new_num;
+	}
+	else {
+		LIST* newNode = (LIST*)malloc(sizeof(LIST));
+		while (temp->next != NULL) {
+			temp = temp->next;
+		}
+		temp = newNode;
+		newNode->next = NULL;
+		strcpy(newNode->subject, new_subject);
 		newNode->score = new_num;
 	}
 }
@@ -136,12 +208,71 @@ void AddRear(LIST *linkedList, int new_num) {
 void PrintAll(LIST* linkedList) {
 	LIST* temp = linkedList;
 	while (temp) {
-		printf("%d ", temp->score);
+		printf("%s %d\n ", temp->subject ,temp->score);
 		temp = temp->next;
 	}
 	printf("\n");
 }
 
+void Search(LIST* linkedList, char* content) {
+	LIST* temp = linkedList;
+	while (temp) {
+		if (strcmp(temp->subject, content) == 0) {
+			printf("점수 : %d", temp->score);
+		}
+		temp = temp->next;
+	}
+	printf("\n");
+}
+
+int Over(LIST* linkedList, char* subject) {
+	LIST* temp = linkedList;
+	while (temp) {
+		if (strcmp(temp->subject, subject) == 0) {
+			printf("중복된 입력입니다.\n");
+			return 1;
+		}
+		else {
+			return 0;
+		}
+		temp = temp->next;
+	}
+}
+
+void DelRear(LIST* linkedList) {
+	LIST* temp1 = linkedList; //뒤따라서
+	LIST* temp2 = linkedList->next; //앞
+	if (temp2 == NULL) {//노드가 1개인 경우
+		if (linkedList->score == 0) {// 완전히 비어있는 경우
+			printf("삭제할 데이터가 없습니다\n");
+		}
+		else { //1개 입력되어 있는 경우
+			strcpy(linkedList->subject, "");
+			linkedList->score = 0;
+		}
+	}
+	else { //노드가 2개 이상인 경우
+		while (temp2->next != NULL) {
+			temp1 = temp1->next;
+			temp2 = temp2->next;
+		}
+	}
+	temp2->next = NULL;
+	free(temp2);
+}
+
+void NDelRear(LIST* linkedList, int n) {
+	LIST* temp = linkedList;
+	for (int i = 0; i < n; i++) {
+		temp = temp->next;
+	}
+	printf("삭제할 내용 : %s (%d)\n", temp->subject, temp->score);
+	strcpy(temp->subject , "");
+	temp->score = NULL;
+	free(temp);
+}
+
+/*
 void Swap(POINT* p) {
 	int swap = 0;
 	swap = p->x;
@@ -164,3 +295,4 @@ void GetNum(int a, int b, int* gob, int* power) {
 	*gob = a * b;
 	*power = pow(a,b);
 }
+*/
